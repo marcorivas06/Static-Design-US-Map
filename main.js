@@ -22,18 +22,15 @@ var svg = d3.select("body")
     .attr("height", height);
 
     svg.append("text")
-    .attr("x", width / 2)             // Position it at the center of the SVG width
-    .attr("y", 30)                    // A bit of padding from the top
-    .attr("text-anchor", "middle")    // Ensures the text is centered at the given x position
-    .attr("font-size", "24px")        // Adjust font size as needed
-    .attr("font-weight", "bold")      // Make it bold
+    .attr("x", width / 2)             
+    .attr("y", 30)                    
+    .attr("text-anchor", "middle")    
+    .attr("font-size", "24px")        
+    .attr("font-weight", "bold")      
     .text("Super Market Accessibility in the US");
 
 // Load the GeoJSON data
 d3.json("./cartography/counties.geojson").then(function(us) {
-  
-    // Load your data here, for example from a CSV
-    // Here's a dummy example using d3.csv:
     
     d3.csv("median_scores.csv").then(function(data) {
         const medianScores = {};    
@@ -42,14 +39,12 @@ d3.json("./cartography/counties.geojson").then(function(us) {
             const id = d.State + "_" + d.County;
             medianScores[id] = +d.median_sas_score;
         });
-
-        // Update the color domain based on your dataset's range
+        
         color.domain([
             d3.min(data, d => d.median_sas_score),
             d3.max(data, d => d.median_sas_score)
         ]);
 
-        // Draw the counties with the appropriate colors
         svg.selectAll("path")
             .data(us.features)
             .enter()
